@@ -12,18 +12,20 @@ List<Product> products = new List<Product>()
     new Product()
     {
         Name = "Football",
-        Price = 15,
+        Price = 15.00M,
         Sold = false,
         StockDate = new DateTime(2022, 10, 20),
-        ManufactureYear = 2010
+        ManufactureYear = 2010,
+        Condition = 4.2
     },
     new Product()
     {
         Name = "Hockey Stick",
-        Price = 12,
+        Price = 12.00M,
         Sold = false,
         StockDate = new DateTime(2022, 12, 21),
-        ManufactureYear = 2011
+        ManufactureYear = 2011,
+        Condition = 3.5
     }
 };
 
@@ -55,12 +57,17 @@ TimeSpan timeInStock = now - chosenProduct.StockDate;
 Console.WriteLine(@$"You chose: 
 {chosenProduct.Name}, which costs {chosenProduct.Price} dollars.
 It is {now.Year - chosenProduct.ManufactureYear} years old. 
-It {(chosenProduct.Sold ? "is not available." : $"has been in stock for {timeInStock.Days} days.")}");
+It {(chosenProduct.Sold ? "is not available." : $"has been in stock for {timeInStock.Days} days.")}
+Its condition is {chosenProduct.Condition} out of 5.");
 
+/*这一行, string interpolation */
 
-
-/* Console.WriteLine(@$"You chose: {response}. 
-Thank you for your input!");
-
-这一行, string interpolation */
-
+decimal totalValue = 0.0M;
+foreach (Product product in products)
+{
+    if (!product.Sold)
+    {
+        totalValue += product.Price;
+    }
+}
+Console.WriteLine($"Total inventory value: ${totalValue}");
