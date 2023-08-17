@@ -36,20 +36,38 @@ for (int i = 0; i < products.Count; i++)
     Console.WriteLine($"{i + 1}. {products[i].Name}");
 }
 
-Console.WriteLine("Please enter a product number: ");
+Product chosenProduct = null;
 
-int response = int.Parse(Console.ReadLine().Trim());
-/* 这一行, 很关键, ReadLine是阅读用户的input(在hit enter之前) */
-// int.Parse是把string转为int
-
-while (response > products.Count || response < 1)
+while (chosenProduct == null)
 {
-    Console.WriteLine("Choose a number between 1 and 5!");
-    response = int.Parse(Console.ReadLine().Trim());
-    // 可以reassign
+    Console.WriteLine("Please enter a product number: ");
+    try
+    {
+        int response = int.Parse(Console.ReadLine().Trim());
+        /* 这一行, 很关键, ReadLine是阅读用户的input(在hit enter之前) */
+        // int.Parse是把string转为int
+        chosenProduct = products[response - 1];
+    }
+    catch (FormatException)
+    {
+        Console.WriteLine("Please type only integers!");
+    }
+    catch (ArgumentOutOfRangeException)
+    {
+        Console.WriteLine("Please choose an existing item only!");
+    }
+    catch (Exception ex)
+    // 如果try里面有runtime error/Exceptions. 那就执行catch里面的code
+    {
+        Console.WriteLine(ex);
+        //这样就不会看到unhandled exception字样了. code也不会停止运行了.
+        Console.WriteLine("Do better!");
+    }
 }
 
-Product chosenProduct = products[response - 1];
+
+
+
 
 DateTime now = DateTime.Now;
 
